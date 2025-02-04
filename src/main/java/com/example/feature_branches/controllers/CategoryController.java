@@ -53,7 +53,7 @@ public class CategoryController {
         }
 
         categoryRepository.deleteById(id);
-        System.out.println("Deleted Category: " + id);
+
         return ResponseEntity.noContent().build();
     }
 }
