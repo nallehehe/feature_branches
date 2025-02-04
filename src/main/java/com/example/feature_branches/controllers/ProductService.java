@@ -24,8 +24,8 @@ public class ProductService {
    }
 
    @PutMapping
-    public ResponseEntity <Product> updateProductById (@PathVariable Long productId, @RequestBody Product newProductDetails){
-       Product exisitngProduct = productRepository.findById(productId)
+    public ResponseEntity <Product> updateProductById (@PathVariable Long id, @RequestBody Product newProductDetails){
+       Product exisitngProduct = productRepository.findById(id)
                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found"));
        return ResponseEntity.ok(exisitngProduct);
    }
@@ -33,6 +33,14 @@ public class ProductService {
    @GetMapping ResponseEntity <List<Product>>getAllProducts (){
        List <Product> allProducts = productRepository.findAll();
        return ResponseEntity.ok(allProducts);
+   }
+
+   @DeleteMapping ResponseEntity <Product> deleteProduct (@PathVariable Long id){
+       if(!productRepository.existsById(id)) {
+           throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product not found");
+       }
+       productRepository.deleteById(id);
+       return ResponseEntity.noContent().build();
    }
 
 
